@@ -6616,6 +6616,10 @@ function! s:IsConflicted() abort
   return len(@%) && !empty(s:ChompDefault('', ['ls-files', '--unmerged', '--', expand('%:p')]))
 endfunction
 
+function! s:DefaultSplitMod(...) abort
+  return get(g:, 'fugitive_default_split_mod', 'leftabove')
+endfunction
+
 function! fugitive#Diffsplit(autodir, keepfocus, mods, arg, ...) abort
   exe s:VersionCheck()
   let args = s:ArgSplit(a:arg)
@@ -6660,7 +6664,7 @@ function! fugitive#Diffsplit(autodir, keepfocus, mods, arg, ...) abort
   try
     if exists('parents') && len(parents) > 1
       exe pre
-      let mods = (autodir ? s:DiffModifier(len(parents) + 1, empty(args) || args[0] =~# '^>') : '') . s:Mods(mods, 'leftabove')
+      let mods = (autodir ? s:DiffModifier(len(parents) + 1, empty(args) || args[0] =~# '^>') : '') . s:Mods(mods, s:DefaultSplitMod())
       let nr = bufnr('')
       if len(parents) > 1 && !&equalalways
         let equalalways = 0
@@ -6706,26 +6710,26 @@ function! fugitive#Diffsplit(autodir, keepfocus, mods, arg, ...) abort
         endtry
       endif
       if a:keepfocus || arg =~# '^>'
-        let mods = s:Mods(a:mods, 'leftabove')
+        let mods = s:Mods(a:mods, s:DefaultSplitMod())
       else
         let mods = s:Mods(a:mods)
       endif
     elseif exists('parents')
       let file = get(parents, -1, s:Relative(repeat('0', 40). ':'))
-      let mods = s:Mods(a:mods, 'leftabove')
+      let mods = s:Mods(a:mods, s:DefaultSplitMod())
     elseif len(commit)
       let file = s:Relative()
       let mods = s:Mods(a:mods, 'rightbelow')
     elseif s:IsConflicted()
       let file = s:Relative(':1:')
-      let mods = s:Mods(a:mods, 'leftabove')
+      let mods = s:Mods(a:mods, s:DefaultSplitMod())
       if get(g:, 'fugitive_legacy_commands', 1)
         let post = 'echohl WarningMsg|echo "Use :Gdiffsplit! for 3 way diff"|echohl NONE|' . post
       endif
     else
       exe s:DirCheck()
       let file = s:Relative(':0:')
-      let mods = s:Mods(a:mods, 'leftabove')
+      let mods = s:Mods(a:mods, s:DefaultSplitMod())
     endif
     let spec = s:Generate(file)
     if spec =~# '^fugitive:' && empty(s:DirCommitFile(spec)[2])

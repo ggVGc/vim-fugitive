@@ -611,6 +611,12 @@ Global maps can be disabled with the g:fugitive_no_maps option.
 >
         let g:fugitive_no_maps = 1
 <
+                                                *g:fugitive_default_split_mod*
+Control which side the current file appears on in diff splits:
+>
+        let g:fugitive_default_split_mod = 'leftabove   " Default: history on left
+        let g:fugitive_default_split_mod = 'rightbelow  " Current file on left
+<
 SPECIFYING OBJECTS                      *fugitive-object* *fugitive-revision*
 
 Fugitive objects are either work tree files or Git revisions as defined in the
