@@ -8025,8 +8025,8 @@ function! fugitive#MapJumps(...) abort
     else
       call s:Map('n', '<2-LeftMouse>', ':<C-U>exe <SID>GF("edit")<CR>', '<silent>')
       call s:Map('n', '<CR>', ':<C-U>exe <SID>GF("edit")<CR>', '<silent>')
-      call s:Map('n', 'o',    ':<C-U>exe <SID>GF("split")<CR>', '<silent>')
-      call s:Map('n', 'gO',   ':<C-U>exe <SID>GF("vsplit")<CR>', '<silent>')
+      call s:Map('n', 'o',    ':<C-U>exe <SID>GF("vsplit")<CR>', '<silent>')
+      call s:Map('n', 'gO',   ':<C-U>exe <SID>GF("split")<CR>', '<silent>')
       call s:Map('n', 'O',    ':<C-U>exe <SID>GF("tabedit")<CR>', '<silent>')
       call s:Map('n', 'p',    ':<C-U>exe <SID>GF("pedit")<CR>', '<silent>')
 
